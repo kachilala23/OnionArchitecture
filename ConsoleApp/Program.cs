@@ -1,10 +1,28 @@
-﻿using System;
+﻿using CustomerApp.Core.Entity;
+using System;
 using System.Collections.Generic;
 
 namespace ConsoleApp
 {
     class Program
     {
+        // UI
+        // Console.WriteLine
+        // Console.ReadLine
+
+        // Infrastructure 
+        // EF - Static List - Text File
+
+        // Test
+        // Unit Test For Core
+
+        // Core
+        // Customer - Entity - Core.Entity
+        // Domain Service - Repository  / UOW - Core
+        // Application Service - Service - Core
+
+
+
         static int id = 1;
         static List<Customer> customers = new List<Customer>();
 

@@ -1,2 +1,5 @@
 Domain Service helps with working with the infrastructure 
 Application Service should help with working with UI
+
+Repository Pattern
+
