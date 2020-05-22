@@ -1,0 +1,171 @@
+﻿using CustomerApp.Core.DomainService;
+using CustomerApp.Core.Entity;
+using CustomerApp.Infratructure.Static.Data.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ConsoleApp
+{
+    public class Printer
+    {
+        private ICustomerRepository customerRepository;
+        public Printer()
+        {
+
+            customerRepository = new CustomerRepository();
+
+            var cust1 = new Customer()
+            {
+                FirstName = "Bob",
+                LastName = "Dylan",
+                Address = "BongoStreet 202"
+            };
+            customerRepository.Create(cust1);
+
+            var cust2 = new Customer()
+            {
+                FirstName = "Lars",
+                LastName = "Bilde",
+                Address = "Ostestrasse 202"
+            };
+            customerRepository.Create(cust2);
+
+            string[] menuItems = {
+                "List All Customers",
+                "Add Customer",
+                "Delete Customer",
+                "Edit Customer",
+                "Exit"
+            };
+
+            //Show Menu
+            //Wait for Selection
+            // - Show selection or
+            // - Warning and go back to menu
+
+            var selection = ShowMenu(menuItems);
+
+            while (selection != 5)
+            {
+                switch (selection)
+                {
+                    case 1:
+                        ListCustomers();
+                        break;
+                    case 2:
+                        AddCustomers();
+                        break;
+                    case 3:
+                        DeleteCustomer();
+                        break;
+                    case 4:
+                        EditCustomer();
+                        break;
+                    default:
+                        break;
+                }
+                selection = ShowMenu(menuItems);
+            }
+            Console.WriteLine("Bye bye!");
+
+            Console.ReadLine();
+        }
+
+
+        #region CRUDSection
+        void EditCustomer()
+        {
+            var customer = FindCustomerById();
+            Console.WriteLine("FirstName: ");
+            customer.FirstName = Console.ReadLine();
+            Console.WriteLine("LastName: ");
+            customer.LastName = Console.ReadLine();
+            Console.WriteLine("Address: ");
+            customer.Address = Console.ReadLine();
+
+        }
+
+        Customer FindCustomerById()
+        {
+            Console.WriteLine("Insert Customer Id: ");
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.WriteLine("Please insert a number");
+            }
+
+            return customerRepository.ReadById(id);
+        }
+
+        void DeleteCustomer()
+        {
+
+            var customerFound = FindCustomerById();
+            if (customerFound != null)
+            {
+                customerRepository.Delete(customerFound.Id);
+            }
+        }
+
+        void AddCustomers()
+        {
+            Console.WriteLine("Firstname: ");
+            var firstName = Console.ReadLine();
+
+            Console.WriteLine("Lastname: ");
+            var lastName = Console.ReadLine();
+
+            Console.WriteLine("Address: ");
+            var address = Console.ReadLine();
+
+            var cust = new Customer()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Address = address
+            };
+            customerRepository.Create(cust);
+        }
+
+        void ListCustomers()
+        {
+            Console.WriteLine("\nList of Customers");
+            var custs = customerRepository.ReadAll();
+            foreach (var customer in custs)
+            {
+                Console.WriteLine($"Id: {customer.Id} Name: {customer.FirstName} " +
+                                $"{customer.LastName} " +
+                                $"Adress: {customer.Address}");
+            }
+            Console.WriteLine("\n");
+
+
+        }
+        #endregion
+
+
+        #region ShowMenu
+        int ShowMenu(string[] menuItems)
+        {
+            Console.WriteLine("Select What you want to do:\n");
+
+            for (int i = 0; i < menuItems.Length; i++)
+            {
+                //Console.WriteLine((i + 1) + ":" + menuItems[i]);
+                Console.WriteLine($"{(i + 1)}: {menuItems[i]}");
+            }
+
+            int selection;
+            while (!int.TryParse(Console.ReadLine(), out selection)
+                || selection < 1
+                || selection > 5)
+            {
+                Console.WriteLine("Please select a number between 1-5");
+            }
+
+            return selection;
+        }
+        #endregion
+    }
+}
