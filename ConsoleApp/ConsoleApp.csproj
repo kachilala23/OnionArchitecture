@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CustomerApp.Core.Entity\CustomerApp.Core.Entity.csproj" />
+    <ProjectReference Include="..\CustomerApp.Core\CustomerApp.Core.csproj" />
+    <ProjectReference Include="..\CustomerApp.Infratructure.Static.Data\CustomerApp.Infratructure.Static.Data.csproj" />
   </ItemGroup>
 
 </Project>

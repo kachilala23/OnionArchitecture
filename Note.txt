@@ -3,3 +3,4 @@ Application Service should help with working with UI
 
 Repository Pattern
 
+Moved the responsibility of data source in the console to the repository
